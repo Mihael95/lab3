@@ -1,0 +1,20 @@
+{
+    "collab_server" : "",
+    "contents" : "corr <- function(directory, threshold = 0){\n  completeData = complete(directory)\n  id <- completeData[\"id\"][completeData[\"nobs\"] > threshold]\n  \n  dir <- paste(getwd(), \"/\", directory, \"/\", sep = \"\")\n  files <- list.files(dir)\n  \n  result <- vector()\n  \n  if(length(id) == 0){\n    return(as.numeric(result))\n  }\n  \n  for(i in 1:length(id)){\n    connection <- file(paste(getwd(), \"/\", directory, \"/\", files[id[i]], sep = \"\"), \"r\")\n    initial <- read.table(connection, nrows = 100)\n    classes <- sapply(initial, class)\n    data <- read.table(connection, sep = \",\", colClasses = classes)\n    close(connection)\n    \n    names(data) <- c(\"Date\", \"sulfate\", \"nitrate\", \"id\")\n    \n    sulfateDataNa <- data[\"sulfate\"]\n    nitrateDataNa <- data[\"nitrate\"]\n    \n    s <- !is.na(sulfateDataNa)\n    n <- !is.na(nitrateDataNa)\n    \n    sulfate <- as.numeric(sulfateDataNa[s & n])\n    nitrate <- as.numeric(nitrateDataNa[s & n])\n    \n    result <- c(result, cor(sulfate, nitrate))\n  }\n  \n  result\n}",
+    "created" : 1478033370142.000,
+    "dirty" : true,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "3926147678",
+    "id" : "A14CD466",
+    "lastKnownWriteTime" : 1477307238,
+    "last_content_update" : 1478033443734,
+    "path" : "C:/Users/Misha/Desktop/Новая папка (2)/corr.R",
+    "project_path" : "corr.R",
+    "properties" : {
+    },
+    "relative_order" : 4,
+    "source_on_save" : false,
+    "source_window" : "",
+    "type" : "r_source"
+}

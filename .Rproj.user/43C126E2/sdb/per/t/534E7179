@@ -1,0 +1,20 @@
+{
+    "collab_server" : "",
+    "contents" : "complete <- function(directory, id = 1:332){\n  dir <- paste(getwd(), \"/\", directory, \"/\", sep = \"\")\n  \n  files <- list.files(dir)\n  \n  ids <- vector()\n  nobs <- vector()\n  \n  for(i in 1:length(id)){\n    connection <- file(paste(getwd(), \"/\", directory, \"/\", files[id[i]], sep = \"\"), \"r\")\n    initial <- read.table(connection, nrows = 100)\n    classes <- sapply(initial, class)\n    data <- read.table(connection, sep = \",\", colClasses = classes)\n    close(connection)\n    \n    names(data) <- c(\"Date\", \"sulfate\", \"nitrate\", \"id\")\n    \n    sulfateDataNa <- data[\"sulfate\"]\n    nitrateDataNa <- data[\"nitrate\"]\n    \n    s <- !is.na(sulfateDataNa)\n    n <- !is.na(nitrateDataNa)\n    \n    ids <- c(ids, id[i])\n    nobs <- c(nobs, as.numeric(length(sulfateDataNa[s & n])))\n  }\n  \n  data.frame(\"id\" = ids, \"nobs\" = nobs)\n}",
+    "created" : 1478025155079.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "1478615695",
+    "id" : "534E7179",
+    "lastKnownWriteTime" : 1478026666,
+    "last_content_update" : 1478026666305,
+    "path" : "C:/Users/Misha/Desktop/complete.R",
+    "project_path" : null,
+    "properties" : {
+    },
+    "relative_order" : 1,
+    "source_on_save" : false,
+    "source_window" : "",
+    "type" : "r_source"
+}
